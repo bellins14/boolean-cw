@@ -24,6 +24,11 @@ body {
   color: var(--black);
   background-color: var(--bg-color);
   font-family: "Darker Grotesque", sans-serif;
+
+  /* to center the game-container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .game-container {
