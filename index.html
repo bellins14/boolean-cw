@@ -1,50 +1,50 @@
 <!DOCTYPE html>
 
 <html>
+  <head>
+    <title>Minesweeper | Boolean CW</title>
 
-<head>
-  <title>Minesweeper | Boolean CW</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@700&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@700&family=Press+Start+2P&display=swap"
-    rel="stylesheet" />
+    <!-- Shortcut icon -->
+    <link rel="shortcut icon" type="x-icon" href="images/icon.png" />
 
-  <!-- Shortcut icon -->
-  <link rel="shortcut icon" type="x-icon" href="images/icon.png" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <body>
+    <div class="game-container">
+      <!-- Game information container -->
+      <div class="game-panel">
+        <h1>Minesweeper WXP</h1>
 
-<body>
-  <div class="game-container">
-    <!-- Game information container -->
-    <div class="game-panel">
-      <h1>Minesweeper WXP</h1>
+        <!-- Score -->
+        <div class="score">
+          <span class="score-label">SCORE</span>
+          <span class="score-counter">00000</span>
+        </div>
+      </div>
 
-      <!-- Score -->
-      <div class="score">
-        <span class="score-label">SCORE</span>
-        <span class="score-counter">00000</span>
+      <!-- Game board -->
+      <div class="game-board">
+        <div class="grid"></div>
+
+        <!-- End game screen -->
+        <div class="end-game-screen hidden">
+          <h2 class="end-game-text">Game<br />Over</h2>
+          <button class="play-again">Play again</button>
+        </div>
       </div>
     </div>
 
-    <!-- Game board -->
-    <div class="game-board">
-      <div class="grid"></div>
-
-      <!-- End game screen -->
-      <div class="end-game-screen hidden">
-        <h2 class="end-game-text">Game<br />Over</h2>
-        <button class="play-again">Play again</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Javascript -->
-  <script type="text/Javascript" src="script.js"></script>
-</body>
-
+    <!-- Javascript -->
+    <script type="text/Javascript" src="script.js"></script>
+  </body>
 </html>

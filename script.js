@@ -1,22 +1,21 @@
 /* -----------------------
-FASE DI PREPARAZIONE
------------------------- */
+PREPARATION PHASE
+----------------------- */
+// Retrieve all the elements of interest from the page
+const scoreCounter = document.querySelector(".score-counter");
+const grid = document.querySelector(".grid");
+const endGameScreen = document.querySelector(".end-game-screen");
+const endGameText = document.querySelector(".end-game-text");
+const playAgainButton = document.querySelector(".play-again");
 
-// Recuperare dalla pagina tutti gli elementi di interesse
-const scoreCounter = document.querySelector('.score-counter');
-const grid = document.querySelector('.grid');
-const endGameScreen = document.querySelector('.end-game-screen');
-const endGameText = document.querySelector('.end-game-text');
-const playAgainButton = document.querySelector('.play-again')
-
-// Preparo delle informazioni utili alla logica di gioco
+// I prepare useful information for the game logic
 const totalCells = 100;
 const totalBombs = 16;
 const maxScore = totalCells - totalBombs;
 const bombsList = [];
 let score = 0;
 
-// Generare TOT bombe casuali
+// Generate some random bombs
 while (bombsList.length < totalBombs) {
   const number = Math.floor(Math.random() * totalCells) + 1;
   if (!bombsList.includes(number)) bombsList.push(number);
@@ -25,101 +24,98 @@ while (bombsList.length < totalBombs) {
 console.log(bombsList);
 
 /* -----------------------
-GRIGLIA E LOGICA DI GIOCO
------------------------*/
+GRID AND GAME LOGIC
+----------------------- */
 let isCellEven = false;
 let isRowEven = false;
 
 for (let i = 1; i <= totalCells; i++) {
-  // Creo un elemento e gli do la classe 'cell'
-  const cell = document.createElement('div');
-  cell.classList.add('cell');
+  // Create an element and give it the class 'cell'
+  const cell = document.createElement("div");
+  cell.classList.add("cell");
 
   // cell.innerText = i;
   isCellEven = i % 2 === 0;
 
-  // Se la riga Ã¨ pari e la cella Ã¨ pari: casella grigia
-  if (isRowEven && isCellEven) cell.classList.add('cell-dark');
+  // If the row and the cell are even and the other odd: 'cell-dark'
+  if ((isRowEven && !isCellEven) || (!isRowEven && isCellEven)) {
+    cell.classList.add("cell-dark");
+  }
 
-  // Se la riga Ã¨ dispari e la cella Ã¨ dispari: casella grigia
-  else if (!isRowEven && !isCellEven) cell.classList.add('cell-dark');
-
-  // Se sono alla fine della riga...
+  // If I'm at the end of the line...
   if (i % 10 === 0) isRowEven = !isRowEven;
 
-  // # Gestiamo il click della cella
-  cell.addEventListener('click', function () {
-    // ! Controllo che la cella non sia stata giÃ  cliccata
-    if (cell.classList.contains('cell-clicked')) return;
-
+  // Manage cell clicking
+  cell.addEventListener("click", function () {
+    // Check if the cell is not clicked
+    if (cell.classList.contains("cell-clicked")) return;
 
     if (bombsList.includes(i)) {
-      // Se Ã¨ una bomba....
-      cell.classList.add('cell-bomb');
+      // If is a bomb ...
+      cell.classList.add("cell-bomb");
       endGame(false);
     } else {
-      // Se non lo Ã¨...
-      cell.classList.add('cell-clicked');
+      // If isn't a bomb ...
+      cell.classList.add("cell-clicked");
       updateScore();
     }
   });
 
-  // Lo inserisco nella griglia
+  // Add it to the 'grid'
   grid.appendChild(cell);
 }
 
-
-/* -------------------
-FUNZIONI
--------------------*/
-// Funzione per aggiornare il punteggio
+/* -----------------
+FUNCTIONS
+----------------- */
+// Function to increase the score
 function updateScore() {
-  // Incremento lo score
+  // increase the score
   score++;
-  // Lo inserisco nel contatore
+  // Put it in the counter
   scoreCounter.innerText = String(score).padStart(5, 0);
 
-  // Controlliamo se l'utente ha vinto
+  // Check if the user won
   if (score === maxScore) endGame(true);
 }
 
-// Funzione per decretare la fine del gioco
+// Function to decree the end of the game
 function endGame(isVictory) {
   if (isVictory === true) {
-    // Coloriamo di verde e cambiamo il messaggio
-    endGameScreen.classList.add('win');
-    endGameText.innerHTML = 'YOU<br>WIN';
+    // Color it green and change the message
+    endGameScreen.classList.add("win");
+    endGameText.innerHTML = "YOU<br>WIN";
   } else {
-    // Riveliamo tutte le bombe
+    // Reveal all bombs
     revealAllBombs();
   }
 
-  // Mostriamo la schermata rimuovendo la classe
-  endGameScreen.classList.remove('hidden');
+  // Show the screen removing the 'hidden' class
+  endGameScreen.classList.remove("hidden");
 }
 
-// Funzione per ricaricare la pagina
+// Function to refresh the page
 function playAgain() {
   location.reload();
 }
 
 // # BONUS
-// Funzione che rivela tutte le bombe
+// Function that reveals all bombs
 function revealAllBombs() {
-  // Recupero tutte le celle
-  const cells = document.querySelectorAll('.cell');
+  // Recover all cells
+  const cells = document.querySelectorAll(".cell");
   for (let i = 1; i <= cells.length; i++) {
-    // controllo se la cella Ã¨ una bomba
+    // Check if the cell is a bomb
     if (bombsList.includes(i)) {
       const cellToReveal = cells[i - 1];
-      cellToReveal.classList.add('cell-bomb');
+      cellToReveal.classList.add("cell-bomb");
     }
   }
 }
 
 /* ---------------------
-EVENTI
+EVENTS
 -----------------------*/
 
-// Gestiamo il click sul tasto rigioca
-playAgainButton.addEventListener('click', playAgain);
+// Manage the click on the replay button
+playAgainButton.addEventListener("click", playAgain);
