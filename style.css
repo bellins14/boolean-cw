@@ -65,6 +65,12 @@ h1 {
   width: 10%;
   height: 10%;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "Press Start 2P", sans-serif;
+  text-transform: uppercase;
   /* border: 1px dashed var(--black); */
 }
 
@@ -74,6 +80,7 @@ h1 {
 
 .cell-clicked {
   background-color: var(--clicked-cell);
+  /* border: 1px solid var(--black); */
 }
 
 .cell-bomb {

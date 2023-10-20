@@ -57,6 +57,7 @@ for (let i = 1; i <= totalCells; i++) {
     } else {
       // If isn't a bomb ...
       cell.classList.add("cell-clicked");
+      showNearBombsNumber(cell);
       updateScore();
     }
   });
@@ -111,6 +112,16 @@ function revealAllBombs() {
       cellToReveal.classList.add("cell-bomb");
     }
   }
+}
+
+// Function that shows the number of bombs near the clicked cell
+function showNearBombsNumber(clickedCell) {
+  let i = 0;
+
+  // if (i > 0)
+  // ########## WORK IN PROGRESS ##############
+  clickedCell.innerHTML = "<p>" + i + "</p>";
+  // ##########################################
 }
 
 /* ---------------------
