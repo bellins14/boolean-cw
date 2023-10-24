@@ -74,11 +74,18 @@ h1 {
   /* border: 1px dashed var(--black); */
 }
 
+.cell:hover {
+  -webkit-box-shadow: inset -11px 11px 10px -8px rgba(0, 23, 50, 0.67);
+  -moz-box-shadow: inset -11px 11px 10px -8px rgba(0, 23, 50, 0.67);
+  box-shadow: inset -11px 11px 10px -8px rgba(0, 23, 50, 0.67);
+}
+
 .cell-dark {
   background-color: var(--bg-dark-color);
 }
 
 .cell-clicked {
+  pointer-events: none;
   background-color: var(--clicked-cell);
   /* border: 1px solid var(--black); */
 }
