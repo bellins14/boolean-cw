@@ -49,6 +49,11 @@ for (let i = 1; i <= totalCells; i++) {
   cell.addEventListener("click", function () {
     cellClickedEvent(this, i);
   });
+  cell.addEventListener("contextmenu", function (ev) {
+    ev.preventDefault();
+    cellContextMenu(this);
+    return false;
+  });
 
   // Add it to the 'grid'
   grid.appendChild(cell);
@@ -62,6 +67,10 @@ function cellClickedEvent(clickedCell, cellIndex) {
   // Check if the cell is not clicked
   if (clickedCell.classList.contains("cell-clicked")) return;
 
+  try {
+    clickedCell.classList.remove("cell-right-clicked");
+  } catch (error) {}
+
   if (bombsList.includes(cellIndex)) {
     // If is a bomb ...
     clickedCell.classList.add("cell-bomb");
@@ -72,8 +81,14 @@ function cellClickedEvent(clickedCell, cellIndex) {
     showNearBombsNumber(clickedCell, cellIndex); // metti indice e grdi
     //updateScore();
   }
-
   // console.log(cellIndex);
+}
+
+function cellContextMenu(cellRightClicked) {
+  if (cellRightClicked.classList.contains("cell-right-clicked"))
+    cellRightClicked.classList.remove("cell-right-clicked");
+  else if (!cellRightClicked.classList.contains("cell-clicked"))
+    cellRightClicked.classList.add("cell-right-clicked");
 }
 
 // Function to increase the score

@@ -83,6 +83,12 @@ h1 {
   /* border: 1px solid var(--black); */
 }
 
+.cell-right-clicked {
+  background-color: var(--orange);
+  /* background-image: url("images/flag.png"); */
+  /* background-size: contain; */
+}
+
 .cell-bomb {
   background-color: var(--orange);
   background-image: url("images/bomb.png");
