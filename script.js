@@ -47,19 +47,7 @@ for (let i = 1; i <= totalCells; i++) {
 
   // Manage cell clicking
   cell.addEventListener("click", function () {
-    // Check if the cell is not clicked
-    if (cell.classList.contains("cell-clicked")) return;
-
-    if (bombsList.includes(i)) {
-      // If is a bomb ...
-      cell.classList.add("cell-bomb");
-      endGame(false);
-    } else {
-      // If isn't a bomb ...
-      cell.classList.add("cell-clicked");
-      showNearBombsNumber(cell, i); // metti indice e grdi
-      updateScore();
-    }
+    cellClickedEvent(this, i);
   });
 
   // Add it to the 'grid'
@@ -69,6 +57,25 @@ for (let i = 1; i <= totalCells; i++) {
 /* -----------------
 FUNCTIONS
 ----------------- */
+// Function to be played when a cell is clicked
+function cellClickedEvent(clickedCell, cellIndex) {
+  // Check if the cell is not clicked
+  if (clickedCell.classList.contains("cell-clicked")) return;
+
+  if (bombsList.includes(cellIndex)) {
+    // If is a bomb ...
+    clickedCell.classList.add("cell-bomb");
+    endGame(false);
+  } else {
+    // If isn't a bomb ...
+    clickedCell.classList.add("cell-clicked");
+    showNearBombsNumber(clickedCell, cellIndex); // metti indice e grdi
+    //updateScore();
+  }
+
+  // console.log(cellIndex);
+}
+
 // Function to increase the score
 function updateScore() {
   // increase the score
@@ -121,43 +128,92 @@ function showNearBombsNumber(clickedCell, clickedCellIndex) {
   const hasRight = clickedCellIndex % 10 !== 0;
   const hasBottom = clickedCellIndex <= 90;
 
-  let i = 0;
+  const leftIndex = clickedCellIndex - 1;
+  const topIndex = clickedCellIndex - 10;
+  const rightIndex = clickedCellIndex + 1;
+  const bottomIndex = clickedCellIndex + 10;
 
-  // Check if the cell on the left is a bomb
-  if (hasLeft && bombsList.includes(clickedCellIndex - 1)) i++;
+  const nearCells = [];
+
+  let i = 0;
   // Check if the cells above are bombs
-  if (hasTop > 10 && bombsList.includes(clickedCellIndex - 10)) {
-    i++;
+  if (hasTop) {
     // Check the top left corner
-    if (hasLeft && bombsList.includes(clickedCellIndex - 11)) i++;
+    if (hasLeft) {
+      if (bombsList.includes(topIndex - 1)) i++;
+      else nearCells.push(topIndex - 1);
+    }
+    // Check the cell above
+    if (bombsList.includes(topIndex)) i++;
+    if (!bombsList.includes(topIndex)) nearCells.push(topIndex);
     // Check the top right corner
-    if (hasRight && bombsList.includes(clickedCellIndex - 9)) i++;
+    if (hasRight) {
+      if (bombsList.includes(topIndex + 1)) i++;
+      else nearCells.push(topIndex + 1);
+    }
+  }
+  // Check if the cell on the left is a bomb
+  if (hasLeft) {
+    if (bombsList.includes(leftIndex)) i++;
+    else nearCells.push(leftIndex);
   }
   // Check if the cell on the right is a bomb
-  if (hasRight && bombsList.includes(clickedCellIndex + 1)) i++;
+  if (hasRight) {
+    if (bombsList.includes(rightIndex)) i++;
+    else nearCells.push(rightIndex);
+  }
   // Check if the cells below are bombs
-  if (hasBottom && bombsList.includes(clickedCellIndex + 10)) {
-    i++;
+  if (hasBottom) {
     // Check the bottom left corner
-    if (hasLeft && bombsList.includes(clickedCellIndex + 9)) i++;
+    if (hasLeft) {
+      if (bombsList.includes(bottomIndex - 1)) i++;
+      else nearCells.push(bottomIndex - 1);
+    }
+    // Check the cell below
+    if (bombsList.includes(bottomIndex)) i++;
+    if (!bombsList.includes(bottomIndex)) nearCells.push(bottomIndex);
     // Check the bottom right corner
-    if (hasRight && bombsList.includes(clickedCellIndex + 11)) i++;
+    if (hasRight) {
+      if (bombsList.includes(bottomIndex + 1)) i++;
+      else nearCells.push(bottomIndex + 1);
+    }
   }
 
+  updateScore();
   clickedCell.innerText = i;
+
+  // console.log(clickedCellIndex);
+
+  if (i === 0) {
+    // console.log(nearCells);
+    for (var j in nearCells) {
+      const nearCell = grid.childNodes[nearCells[j] - 1];
+      // console.log(nearCell);
+      if (!nearCell.classList.contains("cell-clicked")) {
+        nearCell.classList.add("cell-clicked");
+        showNearBombsNumber(nearCell, nearCells[j]);
+      }
+    }
+  }
+
+  /* const indexes = [
+    [topIndex - 1, topIndex, topIndex + 1],
+    [leftIndex, clickedCellIndex, rightIndex],
+    [bottomIndex - 1, bottomIndex, bottomIndex + 1],
+  ]; */
+  // console.table(indexes);
+  // console.log(bombsList);
 }
 
 /* ---------------------
 EVENTS
------------------------*/
-
+--------------------- */
 // Manage the click on the replay button
 playAgainButton.addEventListener("click", playAgain);
 
 /* ---------------------
 DEPRECATED
 --------------------- */
-
 // Function that shows the number of bombs adjacent to the clicked cell
 /* function showAdjacentBombsNumber(clickedCell, clickedCellIndex) {
     let i = 0;
