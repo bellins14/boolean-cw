@@ -112,7 +112,12 @@ function endGame(isVictory) {
     // Reveal all bombs
     revealAllBombs();
   }
-
+  // Remove all flagged cells
+  for (var j in grid.childNodes) {
+    try {
+      grid.childNodes[j].classList.remove("cell-right-clicked");
+    } catch (error) {}
+  }
   // Show the screen removing the 'hidden' class
   endGameScreen.classList.remove("hidden");
 }
@@ -122,7 +127,6 @@ function playAgain() {
   location.reload();
 }
 
-// # BONUS
 // Function that reveals all bombs
 function revealAllBombs() {
   // Recover all cells
