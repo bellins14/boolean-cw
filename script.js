@@ -57,7 +57,7 @@ for (let i = 1; i <= totalCells; i++) {
     } else {
       // If isn't a bomb ...
       cell.classList.add("cell-clicked");
-      showAdjacentBombsNumber(cell, i); // metti indice e grdi
+      showNearBombsNumber(cell, i); // metti indice e grdi
       updateScore();
     }
   });
@@ -114,22 +114,35 @@ function revealAllBombs() {
   }
 }
 
-// Function that shows the number of bombs adjacent to the clicked cell
-function showAdjacentBombsNumber(clickedCell, clickedCellIndex) {
-  // Check if the cell is on the edge
+// Function that shows the number of bombs near the clicked cell
+function showNearBombsNumber(clickedCell, clickedCellIndex) {
+  const hasLeft = clickedCellIndex % 10 !== 1;
+  const hasTop = clickedCellIndex > 10;
+  const hasRight = clickedCellIndex % 10 !== 0;
+  const hasBottom = clickedCellIndex <= 90;
 
   let i = 0;
 
   // Check if the cell on the left is a bomb
-  if (clickedCellIndex % 10 !== 1 && bombsList.includes(clickedCellIndex - 1))
+  if (hasLeft && bombsList.includes(clickedCellIndex - 1)) i++;
+  // Check if the cells above are bombs
+  if (hasTop > 10 && bombsList.includes(clickedCellIndex - 10)) {
     i++;
-  // Check if the cell above is a bomb
-  if (clickedCellIndex > 10 && bombsList.includes(clickedCellIndex - 10)) i++;
+    // Check the top left corner
+    if (hasLeft && bombsList.includes(clickedCellIndex - 11)) i++;
+    // Check the top right corner
+    if (hasRight && bombsList.includes(clickedCellIndex - 9)) i++;
+  }
   // Check if the cell on the right is a bomb
-  if (clickedCellIndex % 10 !== 0 && bombsList.includes(clickedCellIndex + 1))
+  if (hasRight && bombsList.includes(clickedCellIndex + 1)) i++;
+  // Check if the cells below are bombs
+  if (hasBottom && bombsList.includes(clickedCellIndex + 10)) {
     i++;
-  // Check if the cell below is a bomb
-  if (clickedCellIndex <= 90 && bombsList.includes(clickedCellIndex + 10)) i++;
+    // Check the bottom left corner
+    if (hasLeft && bombsList.includes(clickedCellIndex + 9)) i++;
+    // Check the bottom right corner
+    if (hasRight && bombsList.includes(clickedCellIndex + 11)) i++;
+  }
 
   clickedCell.innerText = i;
 }
@@ -140,3 +153,24 @@ EVENTS
 
 // Manage the click on the replay button
 playAgainButton.addEventListener("click", playAgain);
+
+/* ---------------------
+DEPRECATED
+--------------------- */
+
+// Function that shows the number of bombs adjacent to the clicked cell
+/* function showAdjacentBombsNumber(clickedCell, clickedCellIndex) {
+    let i = 0;
+    // Check if the cell on the left is a bomb
+    if (clickedCellIndex % 10 !== 1 && bombsList.includes(clickedCellIndex - 1))
+      i++;
+    // Check if the cell above is a bomb
+    if (clickedCellIndex > 10 && bombsList.includes(clickedCellIndex - 10)) i++;
+    // Check if the cell on the right is a bomb
+    if (clickedCellIndex % 10 !== 0 && bombsList.includes(clickedCellIndex + 1))
+      i++;
+    // Check if the cell below is a bomb
+    if (clickedCellIndex <= 90 && bombsList.includes(clickedCellIndex + 10)) i++;
+
+    clickedCell.innerText = i;
+  } */
