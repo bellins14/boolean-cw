@@ -21,7 +21,7 @@ while (bombsList.length < totalBombs) {
   if (!bombsList.includes(number)) bombsList.push(number);
 }
 
-console.log(bombsList);
+// console.log(bombsList);
 
 /* -----------------------
 GRID AND GAME LOGIC
@@ -57,7 +57,7 @@ for (let i = 1; i <= totalCells; i++) {
     } else {
       // If isn't a bomb ...
       cell.classList.add("cell-clicked");
-      showNearBombsNumber(cell);
+      showAdjacentBombsNumber(cell, i); // metti indice e grdi
       updateScore();
     }
   });
@@ -114,14 +114,24 @@ function revealAllBombs() {
   }
 }
 
-// Function that shows the number of bombs near the clicked cell
-function showNearBombsNumber(clickedCell) {
+// Function that shows the number of bombs adjacent to the clicked cell
+function showAdjacentBombsNumber(clickedCell, clickedCellIndex) {
+  // Check if the cell is on the edge
+
   let i = 0;
 
-  // if (i > 0)
-  // ########## WORK IN PROGRESS ##############
-  clickedCell.innerHTML = "<p>" + i + "</p>";
-  // ##########################################
+  // Check if the cell on the left is a bomb
+  if (clickedCellIndex % 10 !== 1 && bombsList.includes(clickedCellIndex - 1))
+    i++;
+  // Check if the cell above is a bomb
+  if (clickedCellIndex > 10 && bombsList.includes(clickedCellIndex - 10)) i++;
+  // Check if the cell on the right is a bomb
+  if (clickedCellIndex % 10 !== 0 && bombsList.includes(clickedCellIndex + 1))
+    i++;
+  // Check if the cell below is a bomb
+  if (clickedCellIndex <= 90 && bombsList.includes(clickedCellIndex + 10)) i++;
+
+  clickedCell.innerText = i;
 }
 
 /* ---------------------
